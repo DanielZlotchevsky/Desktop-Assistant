@@ -8,19 +8,19 @@ import subprocess as sp
 import json
 import spotipy
 import webbrowser
+from SpotifyKeys import spotname , spotID , spotSecret , spotredirectURI
 #URLLIB / regex
 import urllib.request
 import re
 #PYTHON FILES with functions
-from appSelect import appSelect
+from appManagement import appSelect , appClose
 #endregion imports
 
 #region spotify info
-username = '12138504689'
-clientID = '1105e3e91a5a462c941d28022dc4fac7'
-clientSecret = '58e2d61b5a3a4f1883eb0a66c89b57bc'
-redirectURI = 'http://google.com/'
-
+username = spotname
+clientID = spotID
+clientSecret = spotSecret
+redirectURI = spotredirectURI
 
 oauth_object = spotipy.SpotifyOAuth(clientID, clientSecret, redirectURI)
 token_dict = oauth_object.get_cached_token()
@@ -39,9 +39,11 @@ def task(text):
     if 'spotify' in text:
         songSelect(text)
     if 'youtube' in text:
-        webOpen(text)
+        tubeOpen(text)
     if 'open' in text:
         appSelect(text)
+    if 'close' in text:
+        appClose(text)
     if 'donkey' in text:
         print('im a donkey')
     else:
@@ -68,11 +70,15 @@ def songSelect(text):
     # Open the Song in Web Browser
     webbrowser.open(song)
 
-def webOpen(text):
+def tubeOpen(text):
     print('running webopen')
-
-
-        
+    tubeIndex = text.find('play') + 4
+    searchKeywords = text[tubeIndex:99].replace(' ', '_')
+    print(searchKeywords)
+    html = urllib.request.urlopen("https://www.youtube.com/results?search_query=" + searchKeywords)
+    videoIds = re.findall(r"watch\?v=(\S{11})", html.read().decode())
+    webbrowser.open('https://www.youtube.com/watch?v=' + videoIds[0])
+    
 
 def startAssistant():
     engine.say('Start')
@@ -83,7 +89,8 @@ def startAssistant():
             #voice = listener.listen(source)
             #command = listener.recognize_google(voice)
             #command = command.lower()
-            tempCommand = 'juice play moo by doja cat'
+            #print(command)
+            tempCommand = 'juice open valorant'
             print(tempCommand)
             if 'juice' in tempCommand:
                 task(tempCommand)
