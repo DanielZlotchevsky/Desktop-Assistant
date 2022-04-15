@@ -11,7 +11,7 @@ import webbrowser
 #URLLIB / regex
 import urllib.request
 import re
-#imports for other files with functions
+#PYTHON FILES with functions
 from appSelect import appSelect
 #endregion imports
 
