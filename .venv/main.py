@@ -1,6 +1,7 @@
 #region Imports
 import speech_recognition as sr
 import pyttsx3
+from decouple import config
 # OS for launching apps
 import os
 import subprocess as sp
@@ -8,7 +9,6 @@ import subprocess as sp
 import json
 import spotipy
 import webbrowser
-from SpotifyKeys import spotname , spotID , spotSecret , spotredirectURI
 #URLLIB / regex
 import urllib.request
 import re
@@ -17,10 +17,10 @@ from appManagement import appSelect , appClose
 #endregion imports
 
 #region spotify info
-username = spotname
-clientID = spotID
-clientSecret = spotSecret
-redirectURI = spotredirectURI
+username = config('username', default='')
+clientID = config('clientID', default='')
+clientSecret = config('clientSecret')
+redirectURI = config('redirectURI', default='')
 
 oauth_object = spotipy.SpotifyOAuth(clientID, clientSecret, redirectURI)
 token_dict = oauth_object.get_cached_token()
@@ -48,11 +48,8 @@ def task(text):
         print('im a donkey')
     else:
         print('I Dont Understand')
-            
 
 
-
-            
 def songSelect(text):
     print('running spotify song select')
     playIndex = text.find('play') + 4
@@ -69,6 +66,7 @@ def songSelect(text):
     song = tracks_items[0]['external_urls']['spotify']
     # Open the Song in Web Browser
     webbrowser.open(song)
+
 
 def tubeOpen(text):
     print('running webopen')
@@ -90,7 +88,7 @@ def startAssistant():
             #command = listener.recognize_google(voice)
             #command = command.lower()
             #print(command)
-            tempCommand = 'juice open valorant'
+            tempCommand = 'juice from spotify play moo'
             print(tempCommand)
             if 'juice' in tempCommand:
                 task(tempCommand)
