@@ -8,7 +8,10 @@ import subprocess as sp
 import json
 import spotipy
 import webbrowser
-
+#URLLIB / regex
+import urllib.request
+import re
+#imports for other files with functions
 from appSelect import appSelect
 #endregion imports
 
@@ -33,16 +36,13 @@ engine = pyttsx3.init()
     
 def task(text):
     print('running task')
-    if 'play' in text:
-        print('running play')
-        playIndex = text.find('play') + 4
-        print(playIndex)
-        song = text[playIndex:99]
-        print(song)
-        songSelect(song)
-    elif 'open' in text:
+    if 'spotify' in text:
+        songSelect(text)
+    if 'youtube' in text:
+        webOpen(text)
+    if 'open' in text:
         appSelect(text)
-    elif 'donkey' in text:
+    if 'donkey' in text:
         print('im a donkey')
     else:
         print('I Dont Understand')
@@ -52,10 +52,13 @@ def task(text):
 
             
 def songSelect(text):
-    print('Running song select')
-    print(text)
+    print('running spotify song select')
+    playIndex = text.find('play') + 4
+    print(playIndex)
+    song = text[playIndex:99]
+    print(song)
     # Get the Song Name.
-    searchQuery = text
+    searchQuery = song
     # Search for the Song.
     searchResults = spotifyObject.search(searchQuery,1,0,"track")
     # Get required data from JSON response.
@@ -66,7 +69,7 @@ def songSelect(text):
     webbrowser.open(song)
 
 def webOpen(text):
-    print('oof')
+    print('running webopen')
 
 
         
