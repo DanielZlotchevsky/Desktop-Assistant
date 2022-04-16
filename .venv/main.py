@@ -1,14 +1,15 @@
 #region Imports
 import speech_recognition as sr
 import pyttsx3
-import pywhatkit
 from decouple import config
 # OS for launching apps
 import os
 import subprocess as sp
+import sys
 import win32gui
 import webbrowser
 import datetime
+import keyboard
 #URLLIB / regex
 import urllib.request
 import re
@@ -30,7 +31,7 @@ def task(text):
         youtube(text)
     if 'open' in text:
         appOpen(text)
-    if 'close' in text:
+    if 'turn off' in text:
         appClose(text)
     if 'focus' in text:
         appFocus(text)
@@ -38,7 +39,8 @@ def task(text):
         print('im a donkey')
         engine.say('I, am a donkey')
         engine.runAndWait()
-
+    if 'terminate' in text:
+        os._exit(1)
 
 def youtube(text):
     print('running Youtube')
@@ -51,11 +53,10 @@ def youtube(text):
     
 
 def startAssistant():
+    print('oof')
     try:
         with sr.Microphone() as source:
-            engine.say("How may i help you?")
-            engine.runAndWait()
-            print('listening...')
+            print('...')
             voice = listener.listen(source)
             command = listener.recognize_google(voice)
             command = command.lower()
@@ -63,6 +64,7 @@ def startAssistant():
             #tempCommand = 'juice open discord'
             #print(tempCommand)
             if 'jimmy' in command:
+                print(command)
                 command = command.replace('jimmy ', '')
                 print(command)
                 #task(tempCommand)
@@ -70,7 +72,9 @@ def startAssistant():
                 
     except:
         pass
-    
-def run():
+
+
+
+while True:
     startAssistant()
-run()
+    

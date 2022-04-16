@@ -13,7 +13,7 @@ erw = engine.runAndWait()
 def appOpen(text):
     print(text)
     print('running appSelect')
-    if 'league' and not 'rocket' in text:
+    if 'league' in text:
         os.popen('C:\Riot Games\League of Legends\LeagueClient.exe')
         es('league was opened')
         engine.runAndWait()
@@ -30,7 +30,7 @@ def appOpen(text):
         os.popen('D:\Program Files (x86)\SteamLibrary\steamapps\common\ChromaChronicles\ChromaChronicles.exe')
         es('Chroma was opened')
         engine.runAndWait()
-    if 'rocket' and 'league' in text:    
+    if 'rocket' in text:    
         sp.run('D:\\Program Files (x86)\\Epic Games\\rocketleague\\Binaries\\Win64\\RocketLeague.exe')
         es('Rocket league was opened')
         engine.runAndWait()
@@ -43,7 +43,7 @@ def appOpen(text):
 
 def appClose(text):
     print('running app close')
-    if 'league' and not 'rocket' in text:
+    if 'league' in text:
         os.system('taskkill /F /im LeagueClient.exe')
         es('league was closed')
         engine.runAndWait()
@@ -59,7 +59,7 @@ def appClose(text):
         os.system('taskkill /F /im ChromaChronicles.exe')
         es('Chroma was closed')
         engine.runAndWait()
-    if 'rocket' and 'league' in text:    
+    if 'rocket' in text:    
         os.system('taskkill /F /im RocketLeague.exe')
         es('Rocket league was closed')
         engine.runAndWait()
@@ -97,7 +97,7 @@ def appFocus(text):
         win32gui.ShowWindow(hwnd, 9)
         es('Chroma in is focus')
         engine.runAndWait()
-    if 'rocket' and 'league' in text:
+    if 'rocket' in text:
         hwnd = win32gui.FindWindow(None, 'Rocket League (64-bit, DX11, Cooked)')
         win32gui.ShowWindow(hwnd, 6)
         win32gui.ShowWindow(hwnd, 9)
