@@ -1,75 +1,111 @@
+from ctypes.wintypes import HWND
 import os
 import subprocess as sp
 import pyttsx3
+import win32gui
+
 
 engine = pyttsx3.init()
+es = engine.say
+erw = engine.runAndWait()
 
-def appSelect(text):
+
+def appOpen(text):
     print(text)
     print('running appSelect')
-    if 'league' and 'legends' in text:
+    if 'league' and not 'rocket' in text:
         os.popen('C:\Riot Games\League of Legends\LeagueClient.exe')
-        engine.say('Opening League of legends')
-        print('league was found')
+        es('league was opened')
+        engine.runAndWait()
     if 'valorant' in text:
-        print('Valo was found')
-        sp.run('C:\\Riot Games\\VALORANT\\live\\VALORANT.exe')
-        engine.say('Opening valorant')
-        print('Valo was found')
+        print('Valo was opened')
+        os.startfile(r'C:\\Users\\Public\\Desktop\\VALORANT.lnk')
+        es('Valo was opened')
+        engine.runAndWait()
     if 'blitz' in text:
         os.popen('C:\\Users\\danje\\AppData\\Local\\Programs\\Blitz\\Blitz.exe')
-        engine.say('Opening Blitz')
-        print('blitz was found')
+        es('blitz was opened')
+        engine.runAndWait()
     if 'chroma' in text:
         os.popen('D:\Program Files (x86)\SteamLibrary\steamapps\common\ChromaChronicles\ChromaChronicles.exe')
-        engine.say('Opening Chromo Chronicles')
-        print('Chroma was found')
-    if 'rocket league' in text:    
+        es('Chroma was opened')
+        engine.runAndWait()
+    if 'rocket' and 'league' in text:    
         sp.run('D:\\Program Files (x86)\\Epic Games\\rocketleague\\Binaries\\Win64\\RocketLeague.exe')
-        print('Rocket league was found')
-
+        es('Rocket league was opened')
+        engine.runAndWait()
+    if 'discord' in text: 
+        os.popen('C:\\Users\\danje\AppData\\Local\Discord\\app-1.0.9004\\Discord.exe')
+        es('Disc was opened')
+        engine.runAndWait()
 
 
 
 def appClose(text):
     print('running app close')
-    if 'league' and 'legends' in text:
+    if 'league' and not 'rocket' in text:
         os.system('taskkill /F /im LeagueClient.exe')
-        print('league was closed')
+        es('league was closed')
+        engine.runAndWait()
     if 'valorant' in text:
         os.system('taskkill /F /im VALORANT.exe')
-        print('Valo was closed')
+        es('Valo was closed')
+        engine.runAndWait()
     if 'blitz' in text:
         os.system('taskkill /F /im Blitz.exe')
-        print('blitz was closed')
+        es('blitz was closed')
+        engine.runAndWait()
     if 'chroma' in text:
         os.system('taskkill /F /im ChromaChronicles.exe')
-        print('Chroma was closed')
-    if 'rocket league' in text:    
+        es('Chroma was closed')
+        engine.runAndWait()
+    if 'rocket' and 'league' in text:    
         os.system('taskkill /F /im RocketLeague.exe')
-        print('Rocket league was closed')
+        es('Rocket league was closed')
+        engine.runAndWait()
+    if 'discord' in text:
+        os.system('taskkill /F /im Discord.exe')
+        es('Discord was closed')
+        engine.runAndWait()
 
 
 
 def appFocus(text):
     print('running appFocus')
-    if 'league' and 'legends' in text:
-        focus = 'League of Legends'
-        os.system('taskkill /F /im LeagueClient.exe')
-        print('league in focus')
+    if 'league' in text:
+        hwnd = win32gui.FindWindow(None, 'League of Legends')
+        print(hwnd)
+        win32gui.ShowWindow(hwnd, 6)
+        win32gui.ShowWindow(hwnd, 9)
+        es('League is in focus')
+        engine.runAndWait()
     if 'valorant' in text:
-        focus = ''
-        os.system('taskkill /F /im VALORANT.exe')
-        print('Valo was closed')
+        hwnd = win32gui.FindWindow(None, 'VALORANT  ')
+        win32gui.ShowWindow(hwnd, 6)
+        win32gui.ShowWindow(hwnd, 9)
+        es('Valo is in focus')
+        engine.runAndWait()
     if 'blitz' in text:
-        focus = 'Blitz'
-        os.system('taskkill /F /im Blitz.exe')
-        print('blitz in focusin focus')
+        hwnd = win32gui.FindWindow(None, 'Blitz')
+        win32gui.ShowWindow(hwnd, 6)
+        win32gui.ShowWindow(hwnd, 9)
+        es('blitz is in focus')
+        engine.runAndWait()
     if 'chroma' in text:
-        focus = 'ChromaChronicles'
-        os.system('taskkill /F /im ChromaChronicles.exe')
-        print('Chroma in focus')
-    if 'rocket league' in text:
-        focus = 'Rocket League (64-bit, DX11, Cooked)'
-        os.system('taskkill /F /im RocketLeague.exe')
-        print('Rocket league in focus')
+        hwnd = win32gui.FindWindow(None, 'ChromaChronicles')
+        win32gui.ShowWindow(hwnd, 6)
+        win32gui.ShowWindow(hwnd, 9)
+        es('Chroma in is focus')
+        engine.runAndWait()
+    if 'rocket' and 'league' in text:
+        hwnd = win32gui.FindWindow(None, 'Rocket League (64-bit, DX11, Cooked)')
+        win32gui.ShowWindow(hwnd, 6)
+        win32gui.ShowWindow(hwnd, 9)
+        es('Rocket league is in focus')
+        engine.runAndWait()
+    if 'discord' in text:
+        hwnd = win32gui.FindWindow(None, 'Discord')
+        win32gui.ShowWindow(hwnd, 6)
+        win32gui.ShowWindow(hwnd, 9)
+        es('Discord is in focus')
+        engine.runAndWait()

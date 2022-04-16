@@ -1,75 +1,47 @@
 #region Imports
 import speech_recognition as sr
 import pyttsx3
+import pywhatkit
 from decouple import config
 # OS for launching apps
 import os
 import subprocess as sp
-# Spotify Api
-import json
-import spotipy
+import win32gui
 import webbrowser
+import datetime
 #URLLIB / regex
 import urllib.request
 import re
 #PYTHON FILES with functions
-from appManagement import appSelect , appClose
+from appManagement import appOpen , appClose , appFocus
 #endregion imports
 
-#region spotify info
-username = config('username', default='')
-clientID = config('clientID', default='')
-clientSecret = config('clientSecret')
-redirectURI = config('redirectURI', default='')
-
-oauth_object = spotipy.SpotifyOAuth(clientID, clientSecret, redirectURI)
-token_dict = oauth_object.get_cached_token()
-token = token_dict['access_token']
-spotifyObject = spotipy.Spotify(auth=token)
-user = spotifyObject.current_user()
-#endregion
 
 listener = sr.Recognizer()
 engine = pyttsx3.init()
-
+engine.runAndWait()
+es = engine.say
+erw = engine.runAndWait()
     
     
 def task(text):
     print('running task')
-    if 'spotify' in text:
-        songSelect(text)
-    if 'youtube' in text:
-        tubeOpen(text)
+    if 'play' in text:
+        youtube(text)
     if 'open' in text:
-        appSelect(text)
+        appOpen(text)
     if 'close' in text:
         appClose(text)
+    if 'focus' in text:
+        appFocus(text)
     if 'donkey' in text:
         print('im a donkey')
-    else:
-        print('I Dont Understand')
+        engine.say('I, am a donkey')
+        engine.runAndWait()
 
 
-def songSelect(text):
-    print('running spotify song select')
-    playIndex = text.find('play') + 4
-    print(playIndex)
-    song = text[playIndex:99]
-    print(song)
-    # Get the Song Name.
-    searchQuery = song
-    # Search for the Song.
-    searchResults = spotifyObject.search(searchQuery,1,0,"track")
-    # Get required data from JSON response.
-    tracks_dict = searchResults['tracks']
-    tracks_items = tracks_dict['items']
-    song = tracks_items[0]['external_urls']['spotify']
-    # Open the Song in Web Browser
-    webbrowser.open(song)
-
-
-def tubeOpen(text):
-    print('running webopen')
+def youtube(text):
+    print('running Youtube')
     tubeIndex = text.find('play') + 4
     searchKeywords = text[tubeIndex:99].replace(' ', '_')
     print(searchKeywords)
@@ -79,22 +51,26 @@ def tubeOpen(text):
     
 
 def startAssistant():
-    engine.say('Start')
     try:
         with sr.Microphone() as source:
-            #engine.say('How can I help you?')
-            #print('listening...')
-            #voice = listener.listen(source)
-            #command = listener.recognize_google(voice)
-            #command = command.lower()
-            #print(command)
-            tempCommand = 'juice from spotify play moo'
-            print(tempCommand)
-            if 'juice' in tempCommand:
-                task(tempCommand)
-                #task(command)
+            engine.say("How may i help you?")
+            engine.runAndWait()
+            print('listening...')
+            voice = listener.listen(source)
+            command = listener.recognize_google(voice)
+            command = command.lower()
+            print(command)
+            #tempCommand = 'juice open discord'
+            #print(tempCommand)
+            if 'jimmy' in command:
+                command = command.replace('jimmy ', '')
+                print(command)
+                #task(tempCommand)
+                task(command)
                 
     except:
         pass
     
-startAssistant()
+def run():
+    startAssistant()
+run()
