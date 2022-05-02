@@ -16,5 +16,5 @@ The test file allows you to see all open windows. This is used to find the windo
 To customize application opening, change the keywords in the tasks and appselect to fit your needs and then add the file locations to
 the subprocess opener labelled sp.Popen.
 
-# Lisence
+# License
 Copyright (2022) Daniel Zlotchevsky
