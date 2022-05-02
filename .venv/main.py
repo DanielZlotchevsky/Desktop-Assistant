@@ -24,7 +24,6 @@ import re
 #region TTS engine and declarations
 
 
-listener = sr.Recognizer()
 engine = pyttsx3.init()
 engine.runAndWait()
 es = engine.say
@@ -97,12 +96,6 @@ apps = {
             'path': 'D:\\Program Files (x86)\\SteamLibrary\\steamapps\\common\\FTL Faster Than Light\\FTLGame.exe',
             'exe': 'FTLGame.exe',
             'window': 'FTL: Faster Than Light'
-        },
-        'spotify': {
-            'name': 'Spotify',
-            'path': 'C:\Users\danje\AppData\Roaming\Spotify\Spotify.exe',
-            'exe': 'Spotify.exe',
-            'window': 'Spotify'
         },
     }
 }
@@ -207,29 +200,30 @@ def youtube(text):
 #region Running the app assistant
 
 def startAssistant():
-    print('oof')
+  listener = sr.Recognizer()
+  with sr.Microphone() as source:
+    voice = listener.listen(source)
+    command = ''
     try:
-        with sr.Microphone() as source:
-            print('...')
-            voice = listener.listen(source)
-            command = listener.recognize_google(voice)
-            command = command.lower()
-            print(command)
-            if 'jimmy' in command:
-                print(command)
-                command = command.replace('jimmy ', '')
-                print(command)
-                task(command)
-                
+      print('...')
+      command = listener.recognize_google(voice)
+      command = command.lower()
+      print(command)
+      if 'jimmy' in command:
+          print(command)
+          command = command.replace('jimmy ', '')
+          print(command)
+          task(command)
+          
     except:
-        pass
+      pass
 
 
 while True: startAssistant()
 
 #endregion
 
-#region TestRun
+#region Testing if microphone not working/ cannot be used
 
 def testRun():
     print('test oof')
